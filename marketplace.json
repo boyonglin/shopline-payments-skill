@@ -1,0 +1,8 @@
+{
+  "name": "shopline-payments",
+  "version": "1.0.0",
+  "description": "SHOPLINE Payments Connections Guide",
+  "author": "Clancy Lin",
+  "keywords": ["payment", "shopline", "taiwan", "line-pay", "cash-flow"],
+  "repository": "https://github.com/boyonglin/shopline-payments-skill.git"
+}
