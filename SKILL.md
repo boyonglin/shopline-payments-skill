@@ -1,10 +1,11 @@
 ---
 name: shopline-payments
 description: >
-  SHOPLINE Payments 台灣導轉式串接指南。涵蓋建立結帳交易（sessionUrl）、導轉付款頁、
-  returnUrl 回跳、Webhook 驗證、交易查詢與退款/請款/取消。使用於「導轉式付款」、
-  「建立結帳交易」、"sessionUrl"、"returnUrl"、"Webhook 簽章"、"LINE Pay/信用卡/ATM/JKO"
-  等金流整合需求。
+  USE WHEN: 用戶詢問 SHOPLINE Payments 金流串接、導轉式付款流程、建立結帳交易（sessionUrl）、
+  returnUrl 回跳處理、Webhook 簽章驗證、交易查詢、退款/請款/取消操作，
+  或整合 LINE Pay、信用卡、ATM、街口支付（JKO）等台灣在地付款方式。
+  DO NOT USE WHEN: 詢問其他金流服務（如綠界 ECPay、藍新 NewebPay、TapPay）、
+  非台灣地區金流、或 SHOPLINE 電商平台非金流相關功能。
 argument-hint: "[feature: checkout/query/refund/capture/cancel/webhook]"
 user-invocable: true
 metadata:
