@@ -1,71 +1,111 @@
 # SHOPLINE Payments Skill
 
-A comprehensive guide for integrating SHOPLINE Payments in Taiwan, including redirect-based checkout, webhooks, refunds, and more.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-## 🎯 What This Skill Does
+SHOPLINE Payments 金流串接 Skill for AI Agents - 支援 LINE Pay、信用卡、ATM、街口支付等台灣在地付款方式
 
-This skill teaches AI coding assistants how to integrate SHOPLINE Payments for Taiwan merchants. It covers:
+支援 Claude Code、Cursor、Codex、GitHub Copilot 等 AI coding agents。
 
-- **Checkout Sessions** - Create payment sessions and redirect customers to SHOPLINE's hosted payment page
-- **Webhooks** - Verify signatures and handle payment notifications
-- **Transactions** - Query payment status, process refunds, capture/cancel authorizations
-- **Payment Methods** - Support for LINE Pay, credit cards, ATM transfers, JKO Pay, and more
+## 功能
 
-## 📦 Installation
+此 Skill 教導 AI coding assistants 如何串接 SHOPLINE Payments 金流，包含：
 
-### For Claude Code
+| 功能 | 說明 |
+|------|------|
+| 建立結帳交易 | 導轉式結帳，取得 sessionUrl 導向 SHOPLINE 付款頁 |
+| Webhook 處理 | 簽章驗證與付款結果通知 |
+| 交易查詢 | 查詢結帳/付款交易狀態 |
+| 退款作業 | 建立退款交易 |
+| 請款/取消 | 信用卡請款與取消授權 |
 
-Copy this folder to your project's `.claude/skills/` directory:
+### 支援的付款方式
+
+- 信用卡（一次付清、分期）
+- 行動支付（LINE Pay、街口支付 JKO Pay）
+- ATM 虛擬帳號轉帳
+
+## 安裝
+
+### 方式一：npx skills（推薦）
+
+使用 [skills CLI](https://skills.sh/) 安裝：
 
 ```bash
-# Clone the repository
+npx skills add boyonglin/shopline-payments-skill
+```
+
+支援多種 AI coding agents：Claude Code、Cursor、Codex、GitHub Copilot、Roo Code 等。
+
+### 方式二：手動安裝
+
+```bash
+# 下載 repository
 git clone https://github.com/boyonglin/shopline-payments-skill.git
 
-# Copy to your project
-cp -r shopline-payments-skill/.  your-project/.claude/skills/shopline-payments/
+# 複製到你的專案（Claude Code）
+cp -r shopline-payments-skill/. your-project/.claude/skills/shopline-payments/
+
+# 或複製到全域目錄
+cp -r shopline-payments-skill/. ~/.claude/skills/shopline-payments/
 ```
 
-Or install via openskills:
+### 方式三：直接上傳
 
-```bash
-npx openskills install boyonglin/shopline-payments-skill
-```
+在 Claude.ai 的 skill 設定中直接上傳 `SKILL.md` 檔案。
 
-### For Claude.ai
+## 使用方式
 
-Upload the `SKILL.md` file directly in Claude's skill settings.
+### 自動觸發
 
-## 📁 Structure
+在對話中提到相關關鍵字時，Claude 會自動載入此 skill：
 
 ```
-shopline-payments/
-├── SKILL.md              # Main skill instructions
-├── marketplace.json      # Marketplace metadata
-├── README.md             # This file
-├── references/           # Detailed documentation
-│   ├── checkout.md       # Checkout session API
-│   ├── query.md          # Transaction query API
-│   ├── refund.md         # Refund API
-│   ├── capture-cancel.md # Capture/Cancel API
-│   ├── webhook.md        # Webhook handling
-│   ├── error-codes.md    # Error code reference
-│   ├── sandbox.md        # Sandbox testing guide
-│   └── payment-methods.md # Supported payment methods
-└── scripts/              # Code examples
-    ├── checkout.js       # Checkout implementation
-    ├── webhook.js        # Webhook verification
-    └── gas-integration.js # Google Apps Script integration
+> 幫我串接 SHOPLINE Payments
+> 我想用 LINE Pay 收款
+> SHOPLINE 金流怎麼串接
 ```
 
-## 🔗 Resources
+### 觸發關鍵字
 
-- [SHOPLINE Payments Documentation](https://docs.shoplinepayments.com/)
+| 關鍵字 |
+|--------|
+| SHOPLINE、SHOPLINE Payments |
+| shopline 金流、shopline 付款 |
+| sessionUrl、導轉式付款 |
+
+## 目錄結構
+
+```
+shopline-payments-skill/
+├── SKILL.md              # 主要 skill 指令
+├── marketplace.json      # Marketplace 元資料
+├── README.md             # 說明文件
+├── references/           # 詳細文檔
+│   ├── checkout.md       # 建立結帳交易 API
+│   ├── query.md          # 交易查詢 API
+│   ├── refund.md         # 退款 API
+│   ├── capture-cancel.md # 請款/取消 API
+│   ├── webhook.md        # Webhook 處理
+│   ├── error-codes.md    # 錯誤碼參考
+│   ├── sandbox.md        # 沙盒測試指南
+│   └── payment-methods.md # 付款方式說明
+└── scripts/              # 程式碼範例
+    ├── checkout.js       # 結帳串接實作
+    ├── webhook.js        # Webhook 驗證
+    └── gas-integration.js # Google Apps Script 整合
+```
+
+## 注意事項
+
+- SHOPLINE Payments API 文件版權歸原業者所有
+- 請以 SHOPLINE 官方最新文件為準
+- `apiKey`、`signKey` 等敏感資訊請妥善保管，不可暴露於前端
+
+## 相關資源
+
+- [SHOPLINE Payments 官方文件](https://docs.shoplinepayments.com/)
 - [API Reference](https://api.shoplinepayments.com/docs)
 
-## 📄 License
-
-MIT License - Feel free to use and modify.
-
-## 👤 Author
+## 作者
 
 **Clancy Lin** - [GitHub](https://github.com/boyonglin)
