@@ -2,6 +2,8 @@
 
 SHOPLINE Payments API 錯誤碼完整列表。
 
+# Server 錯誤碼
+
 ## 通用錯誤碼
 
 | 錯誤碼 | 說明 | 英文說明 |
@@ -9,8 +11,8 @@ SHOPLINE Payments API 錯誤碼完整列表。
 | 1005 | 校驗錯誤 | Check error |
 | 1006 | 紀錄已存在 | Record already exists |
 | 1008 | 狀態錯誤 | Status error |
-| 1016 | 無交易紀錄 | No transaction record |
-| 1018 | 付款失敗/取消/逾期 | Business error |
+| 1016 | 付款查詢、退款發起請求時，沒有交易紀錄 | No transaction record |
+| 1018 | 付款失敗/取消/逾期 & 未知原因 | Business error |
 | 1901 | 系統連線失敗 | System connection failed |
 | 1902 | 系統內部格式錯誤 | System internal format error |
 | 1904 | 請求過於頻繁 | Requests are too frequent |
@@ -37,12 +39,12 @@ SHOPLINE Payments API 錯誤碼完整列表。
 | 錯誤碼 | 說明 | 英文說明 |
 |-------|------|---------|
 | URL_NOT_FOUND | URL 不存在 | The url does not exist |
-| ACCESS_DENIED | apiKey 或 clientKey 不正確 | Access Denied |
+| ACCESS_DENIED | apiKey 或 clientKey 不正確/秘鑰與商家 ID 或平台 ID 不符/秘鑰錯誤/商家沒有存取資源權限 | Access Denied |
 | MERCHANT_NOT_EXISTS | 特店 ID 不存在 | Merchant information does not exist |
-| UNAUTHORIZED_CLIENT | 客戶端 ID 錯誤或授權參數錯誤 | The client is not authorized |
+| UNAUTHORIZED_CLIENT | 客戶端 ID 錯誤或授權參數錯誤 | The client is not authorized to access the requested resource |
 | SERVER_ERROR | 其他系統錯誤 | System exception |
-| KEY_INCORRECT | apiKey 錯誤 | The apiKey or clientKey format is incorrect |
-| INVALID_SCOPE | 授權範圍錯誤 | The requested range parameter value is invalid |
+| KEY_INCORRECT | 平台 Authorize 觸發 connect 綁定時 apiKey 錯誤 | The apiKey or clientKey format is incorrect, please check the parameters |
+| INVALID_SCOPE | 授權範圍錯誤 | The requested range parameter value is invalid or not supported by the authorized server |
 
 ---
 
@@ -214,13 +216,68 @@ SHOPLINE Payments API 錯誤碼完整列表。
 
 ---
 
-## SDK 錯誤碼
+## SDK 錯誤碼（Server）
 
 | 錯誤碼 | 說明 | 英文說明 |
 |-------|------|---------|
-| 1009 | 特店收款權限已停用 | Receive forbidden |
+| 1009 | 特店 SLP 收款權限已停用 | Receive forbidden |
 | 4200 | 特店暫未綁定該付款通路 | Payment method not activated |
-| 4201 | 特店暫無使用權限 | The merchant account invalid |
-| 4202 | 通路或付款方式不支援該交易幣種 | Currency not support |
+| 4201 | 特店暫無使用權限 | The payment failed due to merchant account invalid |
+| 4202 | 通路或付款方式暫時不支援該交易幣種 | Currency not support |
 | 4203 | 特店收款帳戶狀態異常 | Merchant payment permission is disabled |
 | 4204 | 暫不支援該付款方式 | This payment method is not currently supported |
+
+---
+
+## SDK 錯誤碼（Client）
+
+前端 JS SDK 回傳的錯誤碼。
+
+### 初始化與環境錯誤
+
+| 錯誤碼 | 說明 | 英文說明 |
+|-------|------|---------|
+| 1026 | 不支援瀏覽器 | Browser version old |
+| 1027 | SDK 內部錯誤 | Inner error |
+| 1028 | 初始化呈現失敗（兜底錯誤碼） | Init error |
+| 1029 | SDK 未完成呈現，呼叫了其他 API | Render not finish |
+| 1100 | 當前設備環境不支援該付款方式 | Device not support |
+| 1101 | 載入通路 JS 出錯 | Loading payment method js error |
+| 1102 | 介面回應入參出錯，配置出錯 | API request parameter error |
+| 1105 | 當前環境為非 HTTPS | Https needed |
+| 1106 | 建立訂單時脫離使用者操作 | Payment method instance user action needed |
+| 1107 | 其他建立實例未識別到的錯誤 | Payment method instance other error |
+| 1108 | 初始化 SDK 逾時 | Over time |
+| 1109 | 網路錯誤 | Network error |
+| 1111 | 載入內部 JS 出錯 | Loading inner js error |
+| 1112 | 顧客輸入錯誤 | Incorrect user input |
+
+### 交易與付款方式錯誤
+
+| 錯誤碼 | 說明 | 英文說明 |
+|-------|------|---------|
+| 4108 | 喚起通路付款表單失敗 | Failed to pull up the form |
+| 4110 | 建立通道實例失敗 | Failed to create PaySession instance |
+| 4111 | nextAction 入參出錯 | nextAction input parameter error |
+| 4205 | 交易異常（交易狀態未知） | Transaction abnormal |
+| 4206 | 該 API 不支援該付款方式 | The API does not support the payment method |
+| 4207 | 呈現 dom 不存在 | The current transaction requires dom elements |
+| 4208 | SDK 入參出錯 | Init data error |
+| 4550 | 顧客取消付款表單 | Customer cancellation |
+
+### 信用卡驗證錯誤
+
+| 錯誤碼 | 說明 | 英文說明 |
+|-------|------|---------|
+| 43000 | 目前卡的卡組不支援 | The scheme of your credit card is not currently supported |
+| 43001 | 目前卡的發卡銀行不支援 | The issuing bank of your credit card is not currently supported |
+| 43002 | 當前卡的卡類型不支援 | The type of your credit card is not currently supported |
+| 43003 | 目前卡片的發卡國家不支援 | The issuing country of your credit card is not currently supported |
+| 43004 | 當前卡的卡等級不支援 | The category of your credit card is not currently supported |
+| 43005 | 目前卡片的卡片系列不支援（即卡 BIN 不支援） | The series of your credit card is not currently supported |
+| 43006 | 目前分期期數不支援 | The period of installments is not supported |
+| 43007 | 暫不支援該付款方式（目前特店 ID 不支援） | This payment method is not currently supported (current merchant ID is not supported) |
+| 43008 | 暫不支援此金額進行交易 | This amount of transactions is not currently supported |
+| 43009 | 目前付款方式正在維護中 | The payment method is under maintenance |
+| 43010 | 身分資訊核驗異常 | Please enter a valid Number |
+| 43011 | 超出身分資訊核驗次數 | The identity information has been wrong 3 times today, please try again tomorrow |

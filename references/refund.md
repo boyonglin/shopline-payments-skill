@@ -17,10 +17,10 @@ POST {DOMAIN}/api/v1/trade/refund/create
 
 | 參數 | 必填 | 說明 |
 |-----|------|------|
-| `Content-Type` | ✓ | 固定值：`application/json` |
-| `merchantId` | ✓ | 特店 ID |
-| `apiKey` | ✓ | API 介面金鑰 |
-| `requestId` | ✓ | 請求流水號，每個請求唯一 |
+| `Content-Type` | 是 | 固定值：`application/json` |
+| `merchantId` | 是 | 特店 ID |
+| `apiKey` | 是 | API 介面金鑰 |
+| `requestId` | 是 | 請求流水號，每個請求唯一 |
 | `platformId` | 選填 | 平台 ID（平台特店必填） |
 | `idempotentKey` | 選填 | 冪等 KEY |
 
@@ -46,10 +46,10 @@ POST {DOMAIN}/api/v1/trade/refund/create
 
 | 參數 | 類型 | 必填 | 說明 |
 |-----|------|------|------|
-| `referenceOrderId` | String(32) | ✓ | 特店退款訂單號（唯一） |
-| `tradeOrderId` | String(32) | ✓ | SLP 付款交易訂單編號 |
-| `amount.value` | Number | ✓ | 退款金額（台幣 × 100） |
-| `amount.currency` | String | ✓ | 幣種，`TWD` |
+| `referenceOrderId` | String(32) | 是 | 特店退款訂單號（唯一） |
+| `tradeOrderId` | String(32) | 是 | SLP 付款交易訂單編號 |
+| `amount.value` | Number | 是 | 退款金額（台幣 × 100） |
+| `amount.currency` | String | 是 | 幣種，`TWD` |
 | `reason` | String(256) | 選填 | 退款原因 |
 | `callbackUrl` | String(256) | 選填 | Webhook callback URL |
 | `additionalData` | Map | 選填 | 附加資訊 |
@@ -97,29 +97,11 @@ POST {DOMAIN}/api/v1/trade/refund/create
 }
 ```
 
-## 退款規則
-
-1. **時效限制**：付款交易可退款時效為 **180 天**
-2. **金額限制**：退款金額不可超過原交易可退款金額
-3. **狀態要求**：必須是已請款（CAPTURED）的交易才能退款
-4. **部分退款**：部分付款方式不支援部分退款
-5. **餘額要求**：特店帳戶需有足夠餘額
-
 ## 退款錯誤碼
 
-| 錯誤碼 | 說明 |
-|-------|------|
-| 1010 | 退款權限已停用 |
-| 1013 | 退款要求已存在，不可重複發起 |
-| 1014 | 無可退款金額（已全額退款） |
-| 1015 | 特店帳戶未完成高級認證 |
-| 1020 | 超過退款時效（180天） |
-| 1021 | 交易不存在或狀態異常 |
-| 1022 | 商戶餘額不足 |
-| 1202 | 通路不支援線上退款 |
-| 4701 | 退款金額超過可退金額 |
-| 4706 | 上次退款尚在處理中 |
-| 4707 | 該交易不支援部分退款 |
+完整錯誤碼請參考：
+
+- https://docs.shoplinepayments.com/appendix/errorCode/
 
 ## 程式碼範例
 

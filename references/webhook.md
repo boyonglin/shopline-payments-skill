@@ -73,13 +73,9 @@ SHOPLINE Payments 透過 Webhook 將交易事件推送到特店指定的 URL。
 
 | 參數 | 必填 | 說明 |
 |-----|------|------|
-| `merchantId` | ✓ | 特店 ID |
-| `requestId` | ✓ | 請求唯一識別碼 |
-| `apiVersion` | ✓ | API 版本編號，如 `V1.2` |
-| `timestamp` | ✓ | 發送通知的時間戳（毫秒） |
-| `sign` | ✓ | 簽章值 |
-
-> 📝 **備註**：官方快速導覽範例中可能還會包含 `apiKey`，但在 Webhook 通知中主要使用上述欄位進行驗證。
+| `apiVersion` | 是 | API 版本編號，如 `V1.2` |
+| `timestamp` | 是 | 發送通知的時間戳（毫秒） |
+| `sign` | 是 | 簽章值 |
 
 ### HTTP Body
 

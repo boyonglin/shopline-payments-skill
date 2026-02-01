@@ -35,10 +35,10 @@ POST {DOMAIN}/api/v1/trade/payment/capture
 
 | 參數 | 類型 | 必填 | 說明 |
 |-----|------|------|------|
-| `referenceOrderId` | String(32) | ✓ | 特店訂單號（二擇一） |
-| `tradeOrderId` | String(32) | ✓ | SLP 付款交易訂單編號（二擇一） |
-| `amount.value` | Number | ✓ | 請款金額（台幣 × 100） |
-| `amount.currency` | String | ✓ | 幣種，`TWD` |
+| `referenceOrderId` | String(32) | 二擇一 | 特店訂單號 |
+| `tradeOrderId` | String(32) | 二擇一 | SLP 付款交易訂單編號 |
+| `amount.value` | Number | 是 | 請款金額（台幣 × 100） |
+| `amount.currency` | String | 是 | 幣種，`TWD` |
 | `additionalData` | Map | 選填 | 附加資訊 |
 
 ### 成功回應
@@ -54,7 +54,7 @@ POST {DOMAIN}/api/v1/trade/payment/capture
 }
 ```
 
-> ⚠️ **注意**：請款 API 回應的 `status` 通常為 `PROCESSING`，表示請求已接受但尚在處理中。最終結果需透過 Webhook 通知或主動查詢取得，切勿以同步回應的狀態作為最終結果。
+> **注意**：請款 API 回應的 `status` 通常為 `PROCESSING`，表示請求已接受但尚在處理中。最終結果需透過 Webhook 通知或主動查詢取得，切勿以同步回應的狀態作為最終結果。
 
 ### 請款狀態
 
@@ -108,8 +108,8 @@ POST {DOMAIN}/api/v1/trade/payment/cancel
 
 | 參數 | 類型 | 必填 | 說明 |
 |-----|------|------|------|
-| `referenceOrderId` | String(32) | ✓ | 特店訂單號 |
-| `tradeOrderId` | String(48) | ✓ | SLP 付款交易訂單編號 |
+| `referenceOrderId` | String(32) | 是 | 特店訂單號 |
+| `tradeOrderId` | String(48) | 是 | SLP 付款交易訂單編號 |
 | `additionalData` | Map | 選填 | 附加資訊 |
 
 ### 成功回應
@@ -121,7 +121,7 @@ POST {DOMAIN}/api/v1/trade/payment/cancel
 }
 ```
 
-> ⚠️ **注意**：取消授權 API 回應的 `status` 通常為 `PROCESSING`，表示請求已接受但尚在處理中。最終狀態（如 `CANCELLED`）需透過 Webhook 通知或主動查詢確認。
+> **注意**：取消授權 API 回應的 `status` 通常為 `PROCESSING`，表示請求已接受但尚在處理中。最終狀態（如 `CANCELLED`）需透過 Webhook 通知或主動查詢確認。
 
 ### 取消授權錯誤碼
 

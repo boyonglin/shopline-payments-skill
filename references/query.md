@@ -107,27 +107,6 @@ POST {DOMAIN}/api/v1/trade/payment/get
 }
 ```
 
-### 付款狀態 (status)
-
-| 狀態 | 說明 |
-|-----|------|
-| `PROCESSING` | 處理中 |
-| `SUCCEEDED` | 付款成功 |
-| `FAILED` | 付款失敗 |
-| `EXPIRED` | 已過期 |
-| `CANCELLED` | 已取消 |
-| `REFUNDED` | 已退款 |
-
-### 子狀態 (subStatus)
-
-信用卡交易使用手動請款時需關注此參數：
-
-| 子狀態 | 說明 |
-|-------|------|
-| `AUTHORIZED` | 已授權（未請款） |
-| `CAPTURED` | 已請款 |
-| `PARTIAL_CAPTURED` | 部分請款 |
-
 ---
 
 ## 程式碼範例

@@ -1,4 +1,4 @@
-# 建立結帳交易 (Checkout Session)
+# 導轉式串接指南 (Redirect Integration)
 
 導轉式串接的核心 API，用於建立結帳交易並取得付款頁面 URL。
 
@@ -17,10 +17,10 @@ POST {DOMAIN}/api/v1/trade/sessions/create
 
 | 參數 | 必填 | 說明 |
 |-----|------|------|
-| `Content-Type` | ✓ | 固定值：`application/json` |
-| `merchantId` | ✓ | 特店 ID |
-| `apiKey` | ✓ | API 介面金鑰 |
-| `requestId` | ✓ | 請求流水號，每個請求唯一 |
+| `Content-Type` | 是 | 固定值：`application/json` |
+| `merchantId` | 是 | 特店 ID |
+| `apiKey` | 是 | API 介面金鑰 |
+| `requestId` | 是 | 請求流水號，每個請求唯一 |
 | `platformId` | 選填 | 平台 ID（平台特店必填） |
 | `idempotentKey` | 選填 | 冪等 KEY |
 
@@ -125,31 +125,31 @@ POST {DOMAIN}/api/v1/trade/sessions/create
 
 | 參數 | 類型 | 必填 | 說明 |
 |-----|------|------|------|
-| `referenceId` | String(32) | ✓ | 特店訂單號，不可重複 |
-| `amount.value` | Number | ✓ | 金額（台幣 × 100），如 100 元傳入 10000 |
-| `amount.currency` | String | ✓ | 幣種，目前僅支援 `TWD` |
-| `returnUrl` | String(256) | ✓ | 付款完成後返回的頁面 URL |
-| `mode` | String | ✓ | 固定填 `regular` |
-| `allowPaymentMethodList` | Array | ✓ | 允許的付款方式陣列 |
-| `order` | Object | ✓ | 訂單資訊（參考下方訂單參數） |
-| `billing` | Object | ✓ | 帳單資訊（參考下方帳單參數） |
-| `customer` | Object | ✓ | 顧客資訊（參考下方顧客參數） |
-| `client` | Object | ✓ | 客戶端資訊（至少需包含 `ip`） |
+| `referenceId` | String(32) | 是 | 特店訂單號，不可重複 |
+| `amount.value` | Number | 是 | 金額（台幣 × 100），如 100 元傳入 10000 |
+| `amount.currency` | String | 是 | 幣種，目前僅支援 `TWD` |
+| `returnUrl` | String(256) | 是 | 付款完成後返回的頁面 URL |
+| `mode` | String | 是 | 固定填 `regular` |
+| `allowPaymentMethodList` | Array | 是 | 允許的付款方式陣列 |
+| `order` | Object | 是 | 訂單資訊（參考下方訂單參數） |
+| `billing` | Object | 是 | 帳單資訊（參考下方帳單參數） |
+| `customer` | Object | 是 | 顧客資訊（參考下方顧客參數） |
+| `client` | Object | 是 | 客戶端資訊（至少需包含 `ip`） |
 | `expireTime` | Integer | 選填 | 結帳交易逾時時間（分鐘），預設 360 |
-| `language` | String(6) | 選填 | 語言：`zh-TW` / `en` / `zh-CN` / `ja` |
+| `language` | String(6) | 選填 | 語言（依官方列表） |
 
-> ⚠️ **重要**：`order`、`billing`、`customer`、`client` 皆為必填物件，且 `personalInfo.lastName` 為必填欄位。
+> **備註**：欄位必填與否請以官方欄位表為準。
 
 #### 付款方式選項 (paymentMethodOptions)
 
-| 付款方式 | 參數 | 說明 | 官方預設值 |
-|---------|------|------|-----------|
-| `CreditCard` | `installmentCounts` | 分期期數陣列，`"0"` 為一般交易 | `["0"]` |
-| `VirtualAccount` | `paymentExpireTime` | ATM 繳費期限（分鐘） | 4320（3天） |
-| `JKOPay` | `paymentExpireTime` | 街口支付期限（分鐘） | 60 |
-| `ChaileaseBNPL` | `installmentCounts`, `paymentExpireTime` | 中租 zingla 分期設定 | 4320（3天） |
+| 付款方式 | 參數 | 說明 |
+|---------|------|------|
+| `CreditCard` | `installmentCounts` | 分期期數陣列，`"0"` 為一般交易 |
+| `VirtualAccount` | `paymentExpireTime` | ATM 繳費期限（分鐘） |
+| `JKOPay` | `paymentExpireTime` | 街口支付期限（分鐘） |
+| `ChaileaseBNPL` | `installmentCounts`, `paymentExpireTime` | 中租 zingla 分期設定 |
 
-> ⚠️ **限制**：`ApplePay` 與 `LinePay` **不支援** `paymentMethodOptions`，若在這兩種付款方式設定選項將被忽略或導致錯誤。
+> **限制**：`ApplePay` 與 `LinePay` **不支援** `paymentMethodOptions`。
 
 #### 允許的付款方式 (allowPaymentMethodList)
 

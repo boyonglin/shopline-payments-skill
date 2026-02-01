@@ -10,9 +10,9 @@ argument-hint: "[feature: checkout/query/refund/capture/cancel/webhook]"
 user-invocable: true
 metadata:
   author: Clancy Lin
-  version: 1.0.0
+  version: 1.1.0
   documentation: https://docs.shoplinepayments.com/
-  last-verified: 2026-01-30
+  last-verified: 2026-02-01
 ---
 
 # SHOPLINE Payments 金流串接指南
@@ -26,7 +26,7 @@ SHOPLINE Payments 提供兩種串接方式：
 | 串接方式 | 說明 | 適用場景 |
 |---------|------|---------|
 | **導轉式** | 透過 API 取得付款頁 URL，導轉顧客至 SHOPLINE 付款頁 | 串接簡單，適合快速整合 |
-| **內嵌式** | 透過 SDK + API 將付款表單內嵌於特店網站 | 支援綁卡/快捷/定期交易等進階功能 |
+| **內嵌式** | 透過 SDK + API 將付款表單內嵌於特店網站（詳見 [`references/embedded.md`](references/embedded.md)） | 支援綁卡/快捷/定期交易等進階功能 |
 
 ## 環境設定
 
@@ -52,7 +52,8 @@ SHOPLINE Payments 提供兩種串接方式：
 
 | 需求 | 文檔 | 說明 |
 |------|------|------|
-| 建立結帳交易 | [`references/checkout.md`](references/checkout.md) | 導轉式結帳交易 API |
+| 建立結帳交易 | [`references/redirect.md`](references/redirect.md) | 導轉式結帳交易 API |
+| **內嵌式串接** | [`references/embedded.md`](references/embedded.md) | **SDK + API 內嵌式串接指南** |
 | 查詢交易 | [`references/query.md`](references/query.md) | 查詢結帳/付款交易狀態 |
 | 退款 | [`references/refund.md`](references/refund.md) | 建立退款交易 |
 | 請款/取消 | [`references/capture-cancel.md`](references/capture-cancel.md) | 信用卡請款與取消授權 |
@@ -74,7 +75,20 @@ SHOPLINE Payments 提供兩種串接方式：
 6. （建議）主動查詢交易狀態二次確認
 ```
 
-> ⚠️ **重要**：sessionUrl 必須使用全頁導轉（`window.location.href = sessionUrl`），**不要**使用 iFrame 或 `window.open` 開啟，否則可能導致付款流程異常。
+### 內嵌式串接流程
+
+```
+1. 前端引入 JS SDK（NPM 或 CDN）
+2. 初始化 SDK 並呈現收銀台
+3. 顧客填寫付款資訊並點擊結帳
+4. SDK 建立 paySession
+5. 後端呼叫「建立付款交易」API（帶入 paySession）
+6. 前端呼叫 payment.pay(nextAction) 發起付款
+7. 完成 3D 驗證（如需要）後導回 returnUrl
+8. 透過 Webhook 接收付款結果
+```
+
+> 完整內嵌式串接說明請參考 [`references/embedded.md`](references/embedded.md)
 
 ### API 認證機制
 
@@ -86,6 +100,8 @@ merchantId: <YOUR-MERCHANT-ID>
 apiKey: <YOUR-API-KEY>
 requestId: <UNIQUE-REQUEST-ID>
 ```
+
+> **補充**：若為平台特店（Platform Connect）請另外帶入 `platformId`；建議在「建立結帳交易」等具冪等需求的請求帶入 `idempotentKey`，避免重複下單。
 
 ## 快速範例
 

@@ -38,7 +38,7 @@ async function createCheckoutSession(orderData, env = 'sandbox') {
       value: Math.round(orderData.amount * 100), // 轉換為分
       currency: 'TWD'
     },
-    expireTime: orderData.expireTime || 360, // 預設 360 分鐘（官方預設值）
+    expireTime: orderData.expireTime || 360, // 預設 360 分鐘
     returnUrl: orderData.returnUrl,
     mode: 'regular',
     allowPaymentMethodList: orderData.paymentMethods || ['CreditCard', 'LinePay'],
@@ -103,7 +103,7 @@ function buildPaymentMethodOptions(orderData) {
   // ATM 虛擬帳號期限
   if (orderData.paymentMethods?.includes('VirtualAccount')) {
     options.VirtualAccount = {
-      // 官方預設 4320 分鐘（3天），此處設為 1440 分鐘（1天）為業務需求
+      // 預設 1440 分鐘（1 天），可依需求調整
       paymentExpireTime: orderData.atmExpireTime || 1440
     };
   }
@@ -111,7 +111,7 @@ function buildPaymentMethodOptions(orderData) {
   // 街口支付期限
   if (orderData.paymentMethods?.includes('JKOPay')) {
     options.JKOPay = {
-      // 官方預設 60 分鐘，此處設為 120 分鐘（官方範例值）
+      // 預設 120 分鐘，可依需求調整
       paymentExpireTime: orderData.jkoExpireTime || 120
     };
   }
@@ -120,7 +120,7 @@ function buildPaymentMethodOptions(orderData) {
   if (orderData.paymentMethods?.includes('ChaileaseBNPL')) {
     options.ChaileaseBNPL = {
       installmentCounts: orderData.bnplInstallments || ['3', '6', '12'],
-      // 官方預設 4320 分鐘，此處設為 120 分鐘（官方範例值）
+      // 預設 120 分鐘，可依需求調整
       paymentExpireTime: orderData.bnplExpireTime || 120
     };
   }
@@ -175,11 +175,10 @@ function buildOrderInfo(orderData) {
 
 /**
  * 建構顧客資訊
- * 注意：personalInfo.lastName 為必填欄位
  */
 function buildCustomerInfo(orderData) {
   if (!orderData.customer) {
-    throw new Error('customer 為必填物件');
+    throw new Error('customer 未提供');
   }
 
   // 拆分姓名為 firstName 和 lastName
@@ -190,7 +189,7 @@ function buildCustomerInfo(orderData) {
     type: orderData.customer.type || '0', // 0: 個人, 1: 公司
     personalInfo: {
       firstName: firstName,
-      lastName: lastName, // 官方 API 必填
+      lastName: lastName,
       email: orderData.customer.email,
       phone: orderData.customer.phone
     }
@@ -198,14 +197,13 @@ function buildCustomerInfo(orderData) {
 }
 
 /**
- * 建構帳單資訊（必填）
- * 注意：personalInfo.lastName 為必填欄位
+ * 建構帳單資訊
  */
 function buildBillingInfo(orderData) {
-  // billing 為必填，若未提供則使用 customer 資訊
+  // 若未提供 billing，則使用 customer 資訊
   const billingData = orderData.billing || orderData.customer;
   if (!billingData) {
-    throw new Error('billing 或 customer 為必填物件');
+    throw new Error('billing 或 customer 未提供');
   }
 
   const { firstName, lastName } = splitName(billingData.name);
@@ -213,7 +211,7 @@ function buildBillingInfo(orderData) {
   return {
     personalInfo: {
       firstName: firstName,
-      lastName: lastName, // 官方 API 必填
+      lastName: lastName,
       email: billingData.email,
       phone: billingData.phone
     }

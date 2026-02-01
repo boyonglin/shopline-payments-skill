@@ -68,7 +68,7 @@ function createCheckoutSession(orderData, isProduction = false) {
       referenceCustomerId: orderData.customerId || '',
       personalInfo: {
         firstName: customerFirstName,
-        lastName: customerLastName, // 官方 API 必填
+        lastName: customerLastName,
         email: orderData.customerEmail,
         phone: orderData.customerPhone
       }
@@ -76,7 +76,7 @@ function createCheckoutSession(orderData, isProduction = false) {
     billing: {
       personalInfo: {
         firstName: customerFirstName,
-        lastName: customerLastName, // 官方 API 必填
+        lastName: customerLastName,
         email: orderData.customerEmail,
         phone: orderData.customerPhone
       }
@@ -127,14 +127,16 @@ function buildPaymentMethodOptions(orderData) {
   // ATM 虛擬帳號期限
   if (methods.includes('VirtualAccount')) {
     options.VirtualAccount = {
-      paymentExpireTime: orderData.atmExpireTime || 4320 // 官方預設 3 天
+      // 預設 4320 分鐘（3 天），可依需求調整
+      paymentExpireTime: orderData.atmExpireTime || 4320
     };
   }
 
   // 街口支付期限
   if (methods.includes('JKOPay')) {
     options.JKOPay = {
-      paymentExpireTime: orderData.jkoExpireTime || 60 // 官方預設 60 分鐘
+      // 預設 60 分鐘，可依需求調整
+      paymentExpireTime: orderData.jkoExpireTime || 60
     };
   }
 

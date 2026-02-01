@@ -81,7 +81,7 @@ shopline-payments-skill/
 ├── marketplace.json      # Marketplace 元資料
 ├── README.md             # 說明文件
 ├── references/           # 詳細文檔
-│   ├── checkout.md       # 建立結帳交易 API
+│   ├── redirect.md       # 導轉式結帳交易 API
 │   ├── query.md          # 交易查詢 API
 │   ├── refund.md         # 退款 API
 │   ├── capture-cancel.md # 請款/取消 API
