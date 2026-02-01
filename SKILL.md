@@ -9,7 +9,7 @@ description: >
 argument-hint: "[feature: checkout/query/refund/capture/cancel/webhook]"
 user-invocable: true
 metadata:
-  author: WFLY
+  author: Clancy Lin
   version: 1.0.0
   documentation: https://docs.shoplinepayments.com/
   last-verified: 2026-01-30
