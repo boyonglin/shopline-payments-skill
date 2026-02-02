@@ -82,6 +82,7 @@ shopline-payments-skill/
 ├── README.md             # 說明文件
 ├── references/           # 詳細文檔
 │   ├── redirect.md       # 導轉式結帳交易 API
+│   ├── embedded.md       # 嵌入式結帳 API
 │   ├── query.md          # 交易查詢 API
 │   ├── refund.md         # 退款 API
 │   ├── capture-cancel.md # 請款/取消 API
@@ -104,8 +105,3 @@ shopline-payments-skill/
 ## 相關資源
 
 - [SHOPLINE Payments 官方文件](https://docs.shoplinepayments.com/)
-- [API Reference](https://api.shoplinepayments.com/docs)
-
-## 作者
-
-**Clancy Lin** - [GitHub](https://github.com/boyonglin)
